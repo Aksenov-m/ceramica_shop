@@ -265,10 +265,10 @@ onMounted(() => {
 </template>
 
 <script setup>
-import Card from "../Card/Card.vue";
-import CeramicLoader from "../CeramicLoader/CeramicLoader.vue";
+import Card from "../components/Card/Card.vue";
+import CeramicLoader from "../components/CeramicLoader/CeramicLoader.vue";
 import { ref, onMounted, onUnmounted } from "vue";
-import { supabase } from "../../../supabase";
+import { supabase } from "../../supabase";
 
 // --- состояния ---
 const products = ref([]);

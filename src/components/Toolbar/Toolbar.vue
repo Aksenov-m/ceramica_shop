@@ -53,7 +53,7 @@ const items = [
     left: 50%;
     transform: translateX(-50%);
     margin: 0 auto;
-    z-index: 1000;
+    z-index: 10;
     min-height: 80px;
 }
 

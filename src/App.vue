@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <HeaderSubsection />
-    <main> 
-      <MainSubsection />
+
+    <main>
+      <router-view /> 
     </main>
+
     <FooterSubsection />
     <Toolbar />
   </div>
@@ -11,7 +13,6 @@
 
 <script>
 import HeaderSubsection from "./components/HeaderSubsection/HeaderSubsection.vue";
-import MainSubsection from "./components/MainSubsection/MainSubsection.vue";
 import FooterSubsection from "./components/FooterSubsection/FooterSubsection.vue";
 import Toolbar from "./components/Toolbar/Toolbar.vue";
 
@@ -19,7 +20,6 @@ export default {
   name: "Container",
   components: {
     HeaderSubsection,
-    MainSubsection,
     FooterSubsection,
     Toolbar
   }
@@ -32,7 +32,7 @@ export default {
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  max-width: 380px;
+  max-width: 390px;
   margin: 0 auto;
   background-color: #FAF9F6;
   position: relative;
@@ -40,4 +40,4 @@ export default {
   box-sizing: border-box;
   overflow-x: hidden;
 }
-</style>ширину 
+</style>

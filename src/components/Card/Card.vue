@@ -1,10 +1,6 @@
 <template>
   <div class="card-container">
-    <img v-for="photo in photos"
-          :key="photo.id"
-          :src="photo.image_url || image"
-          
-          alt="товар" class="card-image" />
+    <CardSlider :photos="photos" />
     <!-- <div class="card-image-placeholder" /> -->
     <h3 class="card-title">{{ text }}</h3>
     <span class="card-price">{{ price }} ₽</span>
@@ -14,7 +10,8 @@
 
 <script setup>
 import Button from "../Button/Button.vue";
-import image from "./image.png";
+import CardSlider from "../CardSlider/CardSlider.vue";
+
 defineProps({
   photos: { type: Array, default: () => [] },    
   price: Number,    
@@ -64,7 +61,7 @@ defineProps({
 }
 
 .card-price {
-  color: #333333;
+  color: #D2B48C;
   font-family: "Inter", sans-serif;
   font-size: 16px;
   font-weight: 400;
