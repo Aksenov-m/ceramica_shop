@@ -1,11 +1,14 @@
 <template>
+    <router-link :to="to" class="toolbar-item-link">
     <button class="toolbar-item" type="button">
         <img class="toolbar-item__icon" :src="img" :alt="text" />
         <span class="toolbar-item__text">{{ text }}</span>
     </button>
+</router-link>
 </template>
 <script setup>
-defineProps({   
+defineProps({
+  to: { type: String, required: true },   
   text: String,
   img: String,
 });
@@ -47,5 +50,9 @@ defineProps({
     color: #4B5563;
     line-height: 16px;
     text-align: center;
+}
+
+.toolbar-item-link {
+  text-decoration: none;
 }
 </style>

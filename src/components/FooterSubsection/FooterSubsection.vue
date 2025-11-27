@@ -14,11 +14,12 @@
           <path d="M16 21V13C16 12.4 15.6 12 15 12H9C8.4 12 8 12.4 8 13V21" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <p class="footer-copyright">© 2024 Ceramic Aksenova. All rights reserved.</p>
+      <p class="footer-copyright">© {{ year }} Ceramic Aksenova. All rights reserved.</p>
     </footer>
 </template>
   
 <script setup>
+const year = new Date().getFullYear();
 </script>
   
 <style scoped>

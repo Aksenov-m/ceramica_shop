@@ -85,10 +85,13 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
-
+/* 
 html.lock,
 body.lock {
   overflow: hidden !important;
   height: 100%;
-}
+} */
 
+.router-link-active .toolbar-item__text {
+  color: #e7b39b;
+}

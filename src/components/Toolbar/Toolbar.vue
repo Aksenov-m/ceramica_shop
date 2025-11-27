@@ -1,6 +1,6 @@
 <template>
     <nav class="toolbar">
-        <ToolbarItem v-for="item in items" :key="item.id" :img="item.img" :text="item.text" />
+        <ToolbarItem v-for="item in items" :key="item.id" :img="item.img" :text="item.text" :to="item.to"/>
     </nav>
 </template>
 <script setup>
@@ -16,21 +16,25 @@ const items = [
         id: 1,
         text: "Главная",
         img: image,
+        to: "/",
     },
     {
         id: 2,
         text: "Магазин",
         img: vector2,
+        to: "/",
     },
     {
         id: 3,
         text: "О мастере",
         img: vector3,
+        to: "/about",
     },
     {
         id: 4,
         text: "Корзина",
         img: vector,
+        to: "/shopping"
     }
 ];
 
