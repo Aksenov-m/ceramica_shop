@@ -4,7 +4,13 @@
     <!-- <div class="card-image-placeholder" /> -->
     <h3 class="card-title">{{ text }}</h3>
     <span class="card-price">{{ price }} ₽</span>
-    <Button />
+    <Button 
+      :product-id="id"
+      :product-name="text || name"
+      :product-price="price"
+      :product-photos="photos"
+      :product-quantity="quantity"
+    />
   </div>
 </template>
 
@@ -13,11 +19,13 @@ import Button from "../Button/Button.vue";
 import CardSlider from "../CardSlider/CardSlider.vue";
 
 defineProps({
+  id: Number,
   photos: { type: Array, default: () => [] },    
   price: Number,    
   text: String,
   description: String,
   name: String,
+  quantity: { type: Number, default: undefined },
 });
 </script>
 

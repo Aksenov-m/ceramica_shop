@@ -1,6 +1,6 @@
-<template>
+<!-- <template>
     <label class="checkbox">
-      <input type="checkbox" v-model="model" />
+      <input type="checkbox" v-model="model" @change="$emit('change')" />
       <span class="box"></span>
       <slot />
     </label>
@@ -15,12 +15,41 @@
     error: String
   });
   
-  const emit = defineEmits(["update:modelValue"]);
+  const emit = defineEmits(["update:modelValue", "change"]);
   
   const model = computed({
     get: () => props.modelValue,
     set: v => emit("update:modelValue", v)
   });
+  </script> -->
+  <template>
+    <label class="checkbox">
+      <input
+        type="checkbox"
+        :checked="modelValue"
+        @change="onChange"
+      />
+      <slot />
+    </label>
+  
+    <span v-if="error" class="error">{{ error }}</span>
+  </template>
+  
+  <script setup>
+  const emit = defineEmits([
+    "update:modelValue",
+    "change",
+  ])
+  
+  defineProps({
+    modelValue: Boolean,
+    error: String,
+  })
+  
+  const onChange = (e) => {
+    emit("update:modelValue", e.target.checked)
+    emit("change")
+  }
   </script>
   
   <style scoped>

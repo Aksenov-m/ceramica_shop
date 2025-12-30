@@ -9,7 +9,10 @@
         <div class="qty">
           <button @click="change(item.qty - 1)">−</button>
           <span>{{ item.qty }}</span>
-          <button @click="change(item.qty + 1)">+</button>
+          <button 
+            @click="change(item.qty + 1)"
+            :disabled="item.maxQuantity !== undefined && item.qty >= item.maxQuantity"
+          >+</button>
         </div>
       </div>
   
@@ -74,6 +77,12 @@
     background: #f2eae3;
     border-radius: 6px;
     font-size: 18px;
+    cursor: pointer;
+  }
+
+  .qty button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
   
   .qty span {

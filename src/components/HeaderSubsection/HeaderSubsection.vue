@@ -18,7 +18,7 @@
             stroke-linejoin="round"
           />
         </svg>
-        <div class="badge">2</div>
+        <div class="badge">{{cartItemsCount}}</div>
       </div>
 
       <!-- ИКОНКА ФИЛЬТРА -->
@@ -59,9 +59,15 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRoute } from "vue-router";   // ← подключаем роутер
+import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useCartStore } from "../../stores/cartStore";
+
 import logo from "./logo2.svg";
 import DropdownFilter from "../DropdownFilter/DropdownFilter.vue";
+
+const cartStore = useCartStore();
+const { itemsCount: cartItemsCount } = storeToRefs(cartStore);
 
 const route = useRoute(); // ← получаем текущий маршрут
 console.log(route.name)

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест валидации формы</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .test-pass {
+      color: green;
+    }
+    .test-fail {
+      color: red;
+    }
+    button {
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+    .test-item {
+      margin: 10px 0;
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Тестирование валидации формы OrderForm</h1>
+  
+  <div class="test-section">
+    <h2>Интерактивное тестирование</h2>
+    <p>Нажмите кнопку для запуска автоматических тестов валидации:</p>
+    <button onclick="runTests()">Запустить тесты</button>
+    <div id="results"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>Ручное тестирование</h2>
+    <p>Откройте консоль браузера (F12) и выполните:</p>
+    <code>testValidation()</code>
+  </div>
+
+  <script>
+    // Логика валидации (копия из OrderForm.vue)
+    function validateField(field, value, touched) {
+      if (!touched) return '';
+      
+      switch(field) {
+        case 'name':
+          return (!value || value.trim() === '') ? 'Введите имя' : '';
+        case 'phone':
+          return (!value || value.trim() === '') ? 'Введите телефон' : '';
+        case 'email':
+          if (!value || value.trim() === '') {
+            return 'Введите e-mail';
+          }
+          if (!value.includes('@') || !value.includes('.')) {
+            return 'Введите корректный e-mail';
+          }
+          return '';
+        case 'address':
+          return (!value || value.trim() === '') ? 'Введите адрес' : '';
+        case 'agree':
+          return !value ? 'Необходимо согласие' : '';
+        default:
+          return '';
+      }
+    }
+
+    // Тесты
+    const tests = [
+      {
+        name: 'Пустое имя после blur',
+        field: 'name',
+        value: '',
+        touched: true,
+        expected: 'Введите имя'
+      },
+      {
+        name: 'Заполненное имя',
+        field: 'name',
+        value: 'Иван Иванов',
+        touched: true,
+        expected: ''
+      },
+      {
+        name: 'Имя только с пробелами',
+        field: 'name',
+        value: '   ',
+        touched: true,
+        expected: 'Введите имя'
+      },
+      {
+        name: 'Email без @',
+        field: 'email',
+        value: 'testmail.com',
+        touched: true,
+        expected: 'Введите корректный e-mail'
+      },
+      {
+        name: 'Корректный email',
+        field: 'email',
+        value: 'test@mail.com',
+        touched: true,
+        expected: ''
+      },
+      {
+        name: 'Email без точки',
+        field: 'email',
+        value: 'test@mail',
+        touched: true,
+        expected: 'Введите корректный e-mail'
+      },
+      {
+        name: 'Ошибка не показывается до blur',
+        field: 'name',
+        value: '',
+        touched: false,
+        expected: ''
+      },
+      {
+        name: 'Пустой телефон',
+        field: 'phone',
+        value: '',
+        touched: true,
+        expected: 'Введите телефон'
+      },
+      {
+        name: 'Заполненный телефон',
+        field: 'phone',
+        value: '+7 (999) 999-99-99',
+        touched: true,
+        expected: ''
+      },
+      {
+        name: 'Неотмеченный чекбокс',
+        field: 'agree',
+        value: false,
+        touched: true,
+        expected: 'Необходимо согласие'
+      },
+      {
+        name: 'Отмеченный чекбокс',
+        field: 'agree',
+        value: true,
+        touched: true,
+        expected: ''
+      },
+      {
+        name: 'Пустой адрес',
+        field: 'address',
+        value: '',
+        touched: true,
+        expected: 'Введите адрес'
+      },
+      {
+        name: 'Заполненный адрес',
+        field: 'address',
+        value: 'Москва, ул. Ленина, д. 1',
+        touched: true,
+        expected: ''
+      }
+    ];
+
+    function runTests() {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '<h3>Результаты тестирования:</h3>';
+      
+      let passed = 0;
+      let failed = 0;
+
+      tests.forEach(test => {
+        const result = validateField(test.field, test.value, test.touched);
+        const passed = result === test.expected;
+        
+        if (passed) {
+          passed++;
+        } else {
+          failed++;
+        }
+
+        const testDiv = document.createElement('div');
+        testDiv.className = 'test-item';
+        testDiv.innerHTML = `
+          <strong>${passed ? '✅' : '❌'} ${test.name}</strong><br>
+          Поле: ${test.field}, Значение: "${test.value}", Touched: ${test.touched}<br>
+          Ожидалось: "${test.expected}"<br>
+          Получено: "${result}"<br>
+          <span class="${passed ? 'test-pass' : 'test-fail'}">
+            ${passed ? 'ПРОШЕЛ' : 'ПРОВАЛЕН'}
+          </span>
+        `;
+        resultsDiv.appendChild(testDiv);
+      });
+
+      const summary = document.createElement('div');
+      summary.style.marginTop = '20px';
+      summary.style.padding = '15px';
+      summary.style.background = failed === 0 ? '#d4edda' : '#f8d7da';
+      summary.style.border = `1px solid ${failed === 0 ? '#c3e6cb' : '#f5c6cb'}`;
+      summary.style.borderRadius = '4px';
+      summary.innerHTML = `
+        <h3>📊 Итого: ${passed} прошло, ${failed} провалено из ${tests.length}</h3>
+        ${failed === 0 ? '<p style="color: green; font-weight: bold;">🎉 Все тесты прошли успешно!</p>' : '<p style="color: red; font-weight: bold;">⚠️ Некоторые тесты провалились</p>'}
+      `;
+      resultsDiv.appendChild(summary);
+    }
+
+    // Экспорт для консоли
+    window.testValidation = function() {
+      console.log('🧪 Начало тестирования валидации формы\n');
+      let passed = 0;
+      let failed = 0;
+
+      tests.forEach(test => {
+        const result = validateField(test.field, test.value, test.touched);
+        const testPassed = result === test.expected;
+        
+        if (testPassed) {
+          passed++;
+          console.log(`✅ ${test.name}`);
+        } else {
+          failed++;
+          console.error(`❌ ${test.name}`);
+          console.error(`   Ожидалось: "${test.expected}"`);
+          console.error(`   Получено: "${result}"`);
+        }
+      });
+
+      console.log(`\n📊 Результаты: ${passed} прошло, ${failed} провалено из ${tests.length}`);
+      
+      if (failed === 0) {
+        console.log('🎉 Все тесты прошли успешно!');
+      } else {
+        console.log('⚠️ Некоторые тесты провалились');
+      }
+
+      return { passed, failed, total: tests.length };
+    };
+
+    console.log('💡 Тесты загружены. Для запуска:');
+    console.log('   - Нажмите кнопку "Запустить тесты"');
+    console.log('   - Или выполните в консоли: testValidation()');
+  </script>
+</body>
+</html>
+

@@ -2,6 +2,7 @@
     <div class="cart-page">
       <CartList 
         :items="cartItems"
+        :total="totalPrice"
         @update-qty="updateQty"
         @remove="removeItem"
       />
@@ -14,29 +15,20 @@
   </template>
   
   <script setup>
-  import { ref, computed } from "vue";
+  import { storeToRefs } from "pinia";
+  import { useCartStore } from "../stores/cartStore";
   import CartList from "../components/CartList/CartList.vue";
   import OrderForm from "../components/OrderForm/OrderForm.vue";
   
-  // Пример данных
-  const cartItems = ref([
-    { id: 1, title: "Кружка", price: 1200, qty: 1, image: "/cup.jpg" },
-    { id: 2, title: "Тарелка", price: 2500, qty: 2, image: "/plate.jpg" }
-  ]);
-  
-  const totalPrice = computed(() =>
-    cartItems.value.reduce((s, i) => s + i.price * i.qty, 0)
-  );
+  const cartStore = useCartStore();
+  const { items: cartItems, totalPrice } = storeToRefs(cartStore);
   
   function updateQty(id, qty) {
-    const item = cartItems.value.find(el => el.id === id);
-    if (!item) return;
-    if (qty < 1) qty = 1;
-    item.qty = qty;
+    cartStore.updateQty(id, qty);
   }
   
   function removeItem(id) {
-    cartItems.value = cartItems.value.filter(i => i.id !== id);
+    cartStore.removeItem(id);
   }
   
   async function handleSubmit(data) {
